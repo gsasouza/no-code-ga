@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Auth User should add user to database if it doesnt exist  1`] = `
+Object {
+  "UserAuth": Object {
+    "error": null,
+    "me": Object {
+      "email": "email@domain.com",
+      "name": "name",
+      "profilePicture": "picture",
+    },
+    "token": "VALID_TOKEN",
+  },
+}
+`;
+
+exports[`Auth User should not add user to database if it exists  1`] = `
+Object {
+  "UserAuth": Object {
+    "error": null,
+    "me": Object {
+      "email": "email@domain.com",
+      "name": "User#1",
+      "profilePicture": null,
+      "role": "user",
+    },
+    "token": "VALID_TOKEN",
+  },
+}
+`;
+
+exports[`Auth User should not auth an user with an invalid token 1`] = `
+Object {
+  "UserAuth": Object {
+    "error": "Invalid token",
+    "me": null,
+    "token": null,
+  },
+}
+`;

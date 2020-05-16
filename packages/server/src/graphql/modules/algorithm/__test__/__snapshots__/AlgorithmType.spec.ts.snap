@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Algorithm Type should get a list of algorithms 1`] = `
+Object {
+  "algorithms": Object {
+    "edges": Array [
+      Object {
+        "node": Object {
+          "name": "Algorithm#3",
+          "setup": Object {
+            "dataModel": Array [
+              Object {
+                "name": "prop",
+                "type": "Number",
+              },
+            ],
+            "generateFunction": "(x) => x",
+            "populationSize": 10,
+            "testFunction": "(x) => x",
+          },
+          "user": Object {
+            "id": "VXNlcjo=",
+          },
+        },
+      },
+      Object {
+        "node": Object {
+          "name": "Algorithm#2",
+          "setup": Object {
+            "dataModel": Array [
+              Object {
+                "name": "prop",
+                "type": "Number",
+              },
+            ],
+            "generateFunction": "(x) => x",
+            "populationSize": 10,
+            "testFunction": "(x) => x",
+          },
+          "user": Object {
+            "id": "VXNlcjo=",
+          },
+        },
+      },
+      Object {
+        "node": Object {
+          "name": "Algorithm#1",
+          "setup": Object {
+            "dataModel": Array [
+              Object {
+                "name": "prop",
+                "type": "Number",
+              },
+            ],
+            "generateFunction": "(x) => x",
+            "populationSize": 10,
+            "testFunction": "(x) => x",
+          },
+          "user": Object {
+            "id": "VXNlcjo=",
+          },
+        },
+      },
+      Object {
+        "node": Object {
+          "name": "Algorithm#1",
+          "setup": Object {
+            "dataModel": Array [
+              Object {
+                "name": "prop",
+                "type": "Number",
+              },
+            ],
+            "generateFunction": "(x) => x",
+            "populationSize": 10,
+            "testFunction": "(x) => x",
+          },
+          "user": Object {
+            "id": "VXNlcjo=",
+          },
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`Algorithm Type should get an algorithm 1`] = `
+Object {
+  "algorithm": Object {
+    "id": Any<String>,
+    "name": "Algorithm#1",
+    "setup": Object {
+      "dataModel": Array [
+        Object {
+          "name": "prop",
+          "type": "Number",
+        },
+      ],
+      "generateFunction": "(x) => x",
+      "populationSize": 10,
+      "testFunction": "(x) => x",
+    },
+    "user": Object {
+      "id": Any<String>,
+    },
+  },
+}
+`;

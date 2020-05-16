@@ -1,0 +1,37 @@
+# serverless.yml
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+  - serverless-apigw-binary
+  - serverless-sentry
+  - serverless-offline
+
+service: no-code-ag
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ca-central-1
+functions:
+  graphql:
+    # this is formatted as <FILENAME>.<HANDLER>
+    handler: src/handlers/graphql.handler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+      - http:
+          path: graphql
+          method: get
+          cors: true
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js' # Name of webpack configuration file
+    includeModules: true # Node modules configuration for packaging
+    packager: 'yarn' # Packager that will be used to package your external modules
+  apigwBinary:
+    types: #list of mime-types
+      - 'application/pdf'
+  sentry:
+    dsn: https://770f8dd4a77c40e393f303e8e1635555@o95308.ingest.sentry.io/5229027

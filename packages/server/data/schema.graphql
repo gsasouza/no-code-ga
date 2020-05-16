@@ -1,0 +1,117 @@
+"""Algorithm data"""
+type Algorithm implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String
+  user: User
+  setup: Setup
+}
+
+"""A connection to a list of items."""
+type AlgorithmConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [AlgorithmEdge]
+  count: Int
+}
+
+"""An edge in a connection."""
+type AlgorithmEdge {
+  """The item at the end of the edge"""
+  node: Algorithm
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+input AuthUserInput {
+  token: String!
+  clientMutationId: String
+}
+
+type AuthUserPayload {
+  me: User
+  token: String
+  error: String
+  clientMutationId: String
+}
+
+type DataModel {
+  name: String
+  type: String
+}
+
+type Mutation {
+  UserAuth(input: AuthUserInput!): AuthUserPayload
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""The root of all... queries"""
+type Query {
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+  me: User
+  users(after: String, first: Int, before: String, last: Int, search: String): UserConnection
+  algorithms(after: String, first: Int, before: String, last: Int, search: String): AlgorithmConnection
+}
+
+"""Setup data"""
+type Setup {
+  populationSize: Int
+  generateFunction: String
+  testFunction: String
+  dataModel: [DataModel]
+}
+
+"""User data"""
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String
+  email: String
+  profilePicture: String
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]
+  count: Int
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge"""
+  node: User
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}

@@ -1,0 +1,70 @@
+{
+  "name": "gsasouza",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "console:build": "yarn workspace @gsasouza/console build",
+    "console:relay": "yarn workspace @gsasouza/console relay",
+    "console:serve": "yarn workspace @gsasouza/console serve",
+    "console:start": "yarn workspace @gsasouza/console start",
+    "lint": "eslint --fix --ext .js,.ts,.tsx",
+    "prettier": "prettier",
+    "repl": "yarn workspace @gsasouza/server repl",
+    "server:build": "yarn workspace @gsasouza/server build",
+    "server:generate-schema": "yarn workspace @gsasouza/server generate-schema",
+    "server:graphql": "yarn workspace @gsasouza/server graphql",
+    "server:serve": "yarn workspace @gsasouza/server serve",
+    "test": "jest",
+    "test:server": "yarn workspace @gsasouza/server jest",
+    "tsc": "tsc --pretty",
+    "web:build": "yarn workspace @gsasouza/web build",
+    "web:relay": "yarn workspace @gsasouza/web relay",
+    "web:serve": "yarn workspace @gsasouza/web serve",
+    "web:start": "yarn workspace @gsasouza/web start"
+  },
+  "lint-staged": {
+    "*.yml": [
+      "yarn prettier --write"
+    ],
+    "*.{ts,tsx,js}": [
+      "yarn prettier --write",
+      "yarn lint"
+    ],
+    "package.json": [
+      "yarn prettier --write",
+      "yarn sort-package-json"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "babel-jest": "^25.3.0",
+    "detect-file": "^1.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.2",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "eslint-plugin-relay": "^1.5.0",
+    "husky": "^4.2.1",
+    "jest": "^25.1.0",
+    "jest-cli": "^25.1.0",
+    "jest-junit": "^10.0.0",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1",
+    "resolve-dir": "^1.0.1",
+    "sort-package-json": "^1.39.1",
+    "typescript": "^3.7.5"
+  }
+}

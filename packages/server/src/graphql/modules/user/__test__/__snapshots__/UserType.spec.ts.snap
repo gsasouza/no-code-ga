@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User Type should get a list of users user 1`] = `
+Object {
+  "users": Object {
+    "edges": Array [
+      Object {
+        "node": Object {
+          "email": "user#3@domain.com",
+          "name": "User#3",
+          "profilePicture": null,
+          "role": "user",
+        },
+      },
+      Object {
+        "node": Object {
+          "email": "user#2@domain.com",
+          "name": "User#2",
+          "profilePicture": null,
+          "role": "user",
+        },
+      },
+      Object {
+        "node": Object {
+          "email": "user#1@domain.com",
+          "name": "User#1",
+          "profilePicture": null,
+          "role": "user",
+        },
+      },
+      Object {
+        "node": Object {
+          "email": "user#1@domain.com",
+          "name": "User#1",
+          "profilePicture": null,
+          "role": "user",
+        },
+      },
+    ],
+  },
+}
+`;
+
+exports[`User Type should get an user 1`] = `
+Object {
+  "user": Object {
+    "email": "user#1@domain.com",
+    "id": Any<String>,
+    "name": "User#1",
+    "profilePicture": null,
+  },
+}
+`;

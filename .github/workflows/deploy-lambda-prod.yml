@@ -1,0 +1,34 @@
+name: Deploy Lambda Production
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - name: Create env file
+        run: |
+          touch packages/server/.env
+          cat > packages/server/.env << EOF
+          ${{ secrets.ENV }}
+          EOF
+      - name: Install Serverless Framework
+        run: npm install -g serverless
+      - name: Serverless AWS authentication
+        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Deploy Lambda functions
+        run: sls deploy -s prod
+        working-directory: packages/server

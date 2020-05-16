@@ -1,0 +1,48 @@
+name: Deploy Lambda Staging
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+
+      - name: Run tests
+        run: npm run test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: Install Serverless Framework
+        run: npm install -g serverless
+      - name: Create env file
+        run: |
+          touch packages/server/.env
+          cat > packages/server/.env << EOF
+          ${{ secrets.ENV }}
+          EOF
+      - name: Serverless AWS authentication
+        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Deploy Lambda functions
+        run: sls deploy -s dev
+        working-directory: packages/server
