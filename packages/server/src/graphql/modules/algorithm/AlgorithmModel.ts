@@ -40,6 +40,15 @@ const setupSchema = new mongoose.Schema({
   },
 });
 
+const currentDataSchema = new mongoose.Schema({
+  bestFitness: {
+    type: String,
+  },
+  population: {
+    type: String,
+  },
+});
+
 const algorithmSchema = new mongoose.Schema(
   {
     name: {
@@ -47,6 +56,7 @@ const algorithmSchema = new mongoose.Schema(
       required: true,
     },
     setup: setupSchema,
+    currentData: currentDataSchema,
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

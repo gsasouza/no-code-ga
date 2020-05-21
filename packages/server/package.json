@@ -37,6 +37,7 @@
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.9.10",
     "nodemailer": "^6.4.6",
+    "serverless-offline-sns": "^0.68.0",
     "subscriptions-transport-ws": "^0.9.16",
     "webpack-node-externals": "^1.7.2"
   },
