@@ -4,8 +4,7 @@ import AlgorithmModel, { IAlgorithm } from '../src/graphql/modules/algorithm/Alg
 import { User, IUser } from '../src/graphql/modules/user/UserModel';
 
 export const createUser = (payload: Partial<IUser> = {}) => {
-  const count = global.__COUNTERS__.getValue('User');
-  global.__COUNTERS__.increase('User');
+  const count = 1
   return new (User(mongoose.connections[0]))({
     name: `User#${count}`,
     username: `user#${count}`,

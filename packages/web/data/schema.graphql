@@ -5,6 +5,20 @@ type Algorithm implements Node {
   name: String
   user: User
   setup: Setup
+  status: Status
+  currentData: CurrentData
+}
+
+input AlgorithmAddInput {
+  name: String!
+  setup: SetupInputType!
+  clientMutationId: String
+}
+
+type AlgorithmAddPayload {
+  algorithmEdge: AlgorithmEdge
+  error: String
+  clientMutationId: String
 }
 
 """A connection to a list of items."""
@@ -38,13 +52,53 @@ type AuthUserPayload {
   clientMutationId: String
 }
 
+"""Current data"""
+type CurrentData {
+  bestFitness: Float
+  population: String
+}
+
+input DataInputType {
+  name: String!
+  type: String!
+}
+
 type DataModel {
   name: String
   type: String
 }
 
+"""Log data"""
+type Log implements Node {
+  """The ID of an object"""
+  id: ID!
+  populationFitness: Float
+  fitness: Float
+}
+
+"""A connection to a list of items."""
+type LogConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [LogEdge]
+  count: Int
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type LogEdge {
+  """The item at the end of the edge"""
+  node: Log
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
 type Mutation {
   UserAuth(input: AuthUserInput!): AuthUserPayload
+  AlgorithmAdd(input: AlgorithmAddInput!): AlgorithmAddPayload
 }
 
 """An object with an ID"""
@@ -78,6 +132,7 @@ type Query {
   me: User
   users(after: String, first: Int, before: String, last: Int, search: String): UserConnection
   algorithms(after: String, first: Int, before: String, last: Int, search: String): AlgorithmConnection
+  logs(after: String, first: Int, before: String, last: Int, algorithm: ID!): LogConnection
 }
 
 """Setup data"""
@@ -86,6 +141,18 @@ type Setup {
   generateFunction: String
   testFunction: String
   dataModel: [DataModel]
+}
+
+input SetupInputType {
+  populationSize: Int!
+  generateFunction: String!
+  testFunction: String!
+  dataModel: [DataInputType]!
+}
+
+"""Status data"""
+type Status {
+  isRunning: Boolean
 }
 
 """User data"""

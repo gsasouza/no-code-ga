@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLID, GraphQLNonNull, GraphQLObjectType, GraphQLString } from 'graphql';
 import { connectionArgs } from 'graphql-relay';
 
 import { NodeField } from '../interface/NodeInterface';
@@ -9,6 +9,8 @@ import * as AlgorithmLoader from '../modules/algorithm/AlgorithmLoader';
 import UserConnection from '../modules/user/UserConnection';
 import * as UserLoader from '../modules/user/UserLoader';
 import UserType from '../modules/user/UserType';
+import * as LogLoader from '../modules/log/LogLoader';
+import LogConnection from '../modules/log/LogConnection';
 
 export default new GraphQLObjectType({
   name: 'Query',
@@ -40,6 +42,16 @@ export default new GraphQLObjectType({
         },
       },
       resolve: (_, args, context) => AlgorithmLoader.loadAlgorithms(context, args),
+    },
+    logs: {
+      type: LogConnection.connectionType,
+      args: {
+        ...connectionArgs,
+        algorithm: {
+          type: GraphQLNonNull(GraphQLID),
+        },
+      },
+      resolve: (_, args, context) => LogLoader.loadLogs(context, args),
     },
   }),
 });

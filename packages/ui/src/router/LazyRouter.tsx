@@ -15,11 +15,12 @@ const LazyComponent: React.FC<Pick<Props, 'prepare' | 'component' | 'loadingComp
   prepare = defaultPrepare,
   component: Component,
   loadingComponent: Loading = LoadingScreen,
+  loadingProps
 }) => {
   const params = useParams();
   const { query } = prepare(params);
   return (
-    <React.Suspense fallback={Loading && <Loading />}>
+    <React.Suspense fallback={Loading && <Loading {...loadingProps} />}>
       <Component preloadedQuery={query} />
     </React.Suspense>
   );

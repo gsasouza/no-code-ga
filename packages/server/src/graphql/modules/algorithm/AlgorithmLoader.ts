@@ -13,11 +13,16 @@ export default class Algorithm {
   name: string;
   setup: IAlgorithm['setup'];
   user: Schema.Types.ObjectId;
+  status: IAlgorithm['status'];
+  currentData: IAlgorithm['currentData'];
   constructor(data) {
     this.id = data._id;
     this._id = data._id;
     this.name = data.name;
     this.setup = data.setup;
+    this.status = data.status;
+    this.currentData = data.currentData;
+
     this.user = data.user;
   }
 }

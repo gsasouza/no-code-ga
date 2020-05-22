@@ -7,6 +7,9 @@ const AppRouter = () => (
   <Router>
     <AnimatePresence exitBeforeEnter initial={false}>
       <Switch>
+        <Route path="/dashboard">
+          <LazyComponent component={React.lazy(() => import('./PrivateRouter'))} loadingComponent={null} />
+        </Route>
         <Route path="/">
           <LazyComponent component={React.lazy(() => import('./PublicRouter'))} loadingComponent={null} />
         </Route>

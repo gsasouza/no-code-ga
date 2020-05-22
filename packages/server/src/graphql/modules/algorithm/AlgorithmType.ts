@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLBoolean, GraphQLFloat, GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString } from 'graphql';
 import { globalIdField } from 'graphql-relay';
 
 import { NodeInterface } from '../../interface/NodeInterface';
@@ -41,6 +41,32 @@ const SetupType = new GraphQLObjectType({
   }),
 });
 
+const StatusType = new GraphQLObjectType({
+  name: 'Status',
+  description: 'Status data',
+  fields: () => ({
+    isRunning: {
+      type: GraphQLBoolean,
+      resolve: obj => obj.isRunning || false,
+    },
+  }),
+});
+
+const CurrentDataType = new GraphQLObjectType({
+  name: 'CurrentData',
+  description: 'Current data',
+  fields: () => ({
+    bestFitness: {
+      type: GraphQLFloat,
+      resolve: obj => obj.bestFitness,
+    },
+    population: {
+      type: GraphQLString,
+      resolve: obj => obj.population,
+    },
+  }),
+});
+
 const AlgorithmType = new GraphQLObjectType({
   name: 'Algorithm',
   description: 'Algorithm data',
@@ -57,6 +83,14 @@ const AlgorithmType = new GraphQLObjectType({
     setup: {
       type: SetupType,
       resolve: obj => obj.setup,
+    },
+    status: {
+      type: StatusType,
+      resolve: obj => obj.status,
+    },
+    currentData: {
+      type: CurrentDataType,
+      resolve: obj => obj.currentData,
     },
   }),
   interfaces: () => [NodeInterface],

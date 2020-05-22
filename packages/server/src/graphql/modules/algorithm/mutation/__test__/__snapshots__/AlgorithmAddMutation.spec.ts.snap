@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Algorithm Add Mutation should add an algorithm 1`] = `
+Object {
+  "AlgorithmAdd": Object {
+    "algorithmEdge": Object {
+      "cursor": Any<String>,
+      "node": Object {
+        "id": Any<String>,
+        "name": "algorithm",
+        "setup": Object {
+          "dataModel": Array [
+            Object {
+              "name": "value",
+              "type": "number",
+            },
+          ],
+          "generateFunction": "return position",
+          "populationSize": 10,
+          "testFunction": "return position",
+        },
+      },
+    },
+    "error": null,
+  },
+}
+`;
+
+exports[`Algorithm Add Mutation should not add an algorithm if user is not logged in 1`] = `
+Object {
+  "AlgorithmAdd": Object {
+    "algorithmEdge": null,
+    "error": "UNAUTHORIZED",
+  },
+}
+`;

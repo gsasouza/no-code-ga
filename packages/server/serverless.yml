@@ -15,6 +15,14 @@ functions:
     handler: src/handlers/createPopulation.handler
     events:
       - sns: create
+  avaliate:
+    handler: src/handlers/avaliatePopulation.handler
+    events:
+      - sns: avaliate
+  select:
+    handler: src/handlers/selectPopulation.handler
+    events:
+      - sns: select
   graphql:
     # this is formatted as <FILENAME>.<HANDLER>
     handler: src/handlers/graphql.handler
