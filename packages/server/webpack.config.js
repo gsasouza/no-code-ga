@@ -12,15 +12,17 @@ module.exports = {
   entry: slsw.lib.entries,
   watch: true,
   target: 'node',
-  externals: [
-    WebpackNodeExternals({
-      whitelist: ['webpack/hot/poll?1000'],
-    }),
-    WebpackNodeExternals({
-      modulesDir: path.resolve(__dirname, '../../node_modules'),
-      whitelist: [/@gsasouza/],
-    }),
-  ],
+  externals: slsw.lib.webpack.isLocal
+    ? [
+        WebpackNodeExternals({
+          whitelist: ['webpack/hot/poll?1000'],
+        }),
+        WebpackNodeExternals({
+          modulesDir: path.resolve(__dirname, '../../node_modules'),
+          whitelist: [/@gsasouza/],
+        }),
+      ]
+    : ['aws-sdk'],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json', '.mjs'],
   },

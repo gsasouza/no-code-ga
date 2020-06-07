@@ -10,6 +10,12 @@ export interface IAlgorithm extends Document {
     isRunning: boolean;
     isSelecting: boolean;
   };
+  evolveConfig: {
+    mutationBaseRate: number;
+    mutationRate: number;
+    mutationRateModifier: number;
+    generationsWithRateModifier: number;
+  };
   setup: {
     populationSize: number;
     dataModel: { name: string; type: keyof typeof FIELD_TYPES }[];
@@ -19,7 +25,7 @@ export interface IAlgorithm extends Document {
   currentData: {
     bestFitness: number;
     population: string;
-  }
+  };
 }
 
 const setupSchema = new mongoose.Schema(
@@ -47,6 +53,29 @@ const setupSchema = new mongoose.Schema(
     testFunction: {
       type: String,
       required: true,
+    },
+  },
+  { autoIndex: false },
+);
+
+const evolveConfigSchema = new mongoose.Schema(
+  {
+    mutationBaseRate: {
+      type: Number,
+      required: true,
+    },
+    mutationRate: {
+      type: Number,
+      required: true,
+    },
+    mutationRateModifier: {
+      type: Number,
+      required: true,
+    },
+    generationsWithRateModifier: {
+      type: Number,
+      required: true,
+      default: 0,
     },
   },
   { autoIndex: false },
@@ -84,6 +113,7 @@ const algorithmSchema = new mongoose.Schema(
     },
     status: statusSchema,
     setup: setupSchema,
+    evolveConfig: evolveConfigSchema,
     currentData: currentDataSchema,
     user: {
       type: mongoose.Schema.Types.ObjectId,

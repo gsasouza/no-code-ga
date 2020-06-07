@@ -8,19 +8,9 @@ import {
   Store,
   ViewerHandler,
 } from 'relay-runtime';
-import { SubscriptionClient } from 'subscriptions-transport-ws';
 
 import executeFunction from './cacheHandler';
-
-const websocketURL = `ws://${process.env.GRAPHQL_URL}/subscriptions` || 'ws://localhost:5001/subscriptions';
-
-const setupSubscription = (config, variables, cacheConfig, observer) => {
-  const query = config.text;
-  const subscriptionClient = new SubscriptionClient(websocketURL, { reconnect: true });
-  subscriptionClient.subscribe({ query, variables }, (error, result) => {
-    observer.onNext({ data: result });
-  });
-};
+import { setupSubscription } from './setupSubscription';
 
 const network = Network.create(executeFunction, setupSubscription);
 

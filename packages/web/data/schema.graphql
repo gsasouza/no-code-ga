@@ -40,6 +40,17 @@ type AlgorithmEdge {
   cursor: String!
 }
 
+input AlgorithmStartInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type AlgorithmStartPayload {
+  algorithmEdge: AlgorithmEdge
+  error: String
+  clientMutationId: String
+}
+
 input AuthUserInput {
   token: String!
   clientMutationId: String
@@ -84,7 +95,6 @@ type LogConnection {
   """A list of edges."""
   edges: [LogEdge]
   count: Int
-  totalCount: Int
 }
 
 """An edge in a connection."""
@@ -96,9 +106,14 @@ type LogEdge {
   cursor: String!
 }
 
+type LogNewPayload {
+  logEdge: LogEdge
+}
+
 type Mutation {
   UserAuth(input: AuthUserInput!): AuthUserPayload
   AlgorithmAdd(input: AlgorithmAddInput!): AlgorithmAddPayload
+  AlgorithmStart(input: AlgorithmStartInput!): AlgorithmStartPayload
 }
 
 """An object with an ID"""
@@ -153,6 +168,10 @@ input SetupInputType {
 """Status data"""
 type Status {
   isRunning: Boolean
+}
+
+type Subscription {
+  LogNew: LogNewPayload
 }
 
 """User data"""

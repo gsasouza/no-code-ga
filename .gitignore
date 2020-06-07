@@ -101,3 +101,4 @@ reports
 tsconfig.tsbuildinfo
 .serverless
 .webpack
+.dynamodb

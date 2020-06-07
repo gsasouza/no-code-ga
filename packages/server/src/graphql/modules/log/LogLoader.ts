@@ -47,8 +47,7 @@ export const loadLogs = async (context, args) => {
   const where = { user: context.user._id, algorithm: fromGlobalId(args.algorithm).id };
   const logs = LogModel(context.dbConnection)
     .find(where, { _id: 1 })
-    .sort({ createdAt: 1 });
-
+    .sort({ createdAt: -1 });
   return connectionFromMongoCursor({
     cursor: logs,
     context,

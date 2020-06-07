@@ -37,7 +37,7 @@ const handleAvaliate = async event => {
       );
       await publishToQueue('select', { algorithmId: population.algorithm, startTime });
     }
-    await connection.close();
+    // await connection.close();
   } catch (e) {
     console.log(e);
   }

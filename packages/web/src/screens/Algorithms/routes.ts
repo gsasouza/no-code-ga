@@ -17,7 +17,6 @@ export default [
     path: path => `${path}/algorithms/:id`,
     component: React.lazy(() => import('./AlgorithmDetail')),
     prepare: params => {
-      console.log(params);
       const query = require('./__generated__/AlgorithmDetailQuery.graphql');
       const variables = {
         id: params.id,

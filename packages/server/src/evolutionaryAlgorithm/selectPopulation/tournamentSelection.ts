@@ -7,12 +7,12 @@ const combat = (individualA, individualB) => (individualA.fitness > individualB.
 const calculateMean = (array, field) =>
   array.reduce((acc, cur) => acc + JSON.parse(cur.fields)[field], 0) / array.length;
 
-const arrayToObject = array => array.reduce((acc, cur) => ({ ...acc, ...cur }), {});
+export const arrayToObject = array => array.reduce((acc, cur) => ({ ...acc, ...cur }), {});
 
-const calculateFieldResult = (individuals: IPopulation[], algorithm: IAlgorithm) => {
+export const calculateFieldResult = (individuals: IPopulation[], algorithm: IAlgorithm, fn) => {
   const { dataModel } = algorithm.setup;
   const fields = dataModel.map(field => {
-    if (field.type === FIELD_TYPES.NUMBER) return { [field.name]: calculateMean(individuals, field.name) };
+    if (field.type === FIELD_TYPES.NUMBER) return { [field.name]: fn(individuals, field.name) };
     return { [field.name]: 0 };
   });
 
@@ -29,7 +29,7 @@ const tournamentSelection = (population: IPopulation[], bestResult: IPopulation,
     population[Math.floor(Math.random() * population.length)],
     population[Math.floor(Math.random() * population.length)],
   );
-  return calculateFieldResult([mother, father, bestResult], algorithm);
+  return calculateFieldResult([mother, father, bestResult], algorithm, calculateMean);
 };
 
 export default tournamentSelection;
