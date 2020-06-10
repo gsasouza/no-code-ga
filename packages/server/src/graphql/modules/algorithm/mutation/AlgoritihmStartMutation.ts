@@ -3,7 +3,9 @@ import { fromGlobalId, mutationWithClientMutationId, toGlobalId } from 'graphql-
 
 import AlgorithmConnection from '../AlgorithmConnection';
 import { AlgorithmLoader } from '../../../loaders';
-import { SNS } from '../../../../common/aws';
+import AlgorithmModel from '../AlgorithmModel';
+import PopulationModel from '../../population/PopulationModel';
+import { handleRestart } from '../../../../evolutionaryAlgorithm/selectPopulation/handleSelect';
 
 export default mutationWithClientMutationId({
   name: 'AlgorithmStart',
@@ -14,19 +16,26 @@ export default mutationWithClientMutationId({
   },
   mutateAndGetPayload: async ({ id }, { dbConnection, user }) => {
     try {
-      SNS.publish(
-        {
-          Message: JSON.stringify({
-            algorithmId: fromGlobalId(id).id,
-          }),
-          TopicArn: 'arn:aws:sns:us-east-1:444098062489:create',
-        },
-        err => {
-          console.log(err);
-          console.log('ping');
-        },
-      );
+      const algorithm = await AlgorithmModel(dbConnection)
+        .findOne({ _id: fromGlobalId(id).id, user: user._id })
+        .lean();
 
+      if (algorithm.status.isRunning) {
+        await AlgorithmModel(dbConnection)
+          .findOneAndUpdate({ _id: fromGlobalId(id).id, user: user._id }, { status: { isRunning: false } })
+          .lean();
+        return {
+          error: null,
+        };
+      }
+      await AlgorithmModel(dbConnection)
+        .findOneAndUpdate({ _id: fromGlobalId(id).id, user: user._id }, { status: { isRunning: true } })
+        .lean();
+      const population = await PopulationModel(dbConnection)
+        .find({ algorithm: algorithm._id, user: user._id })
+        .lean();
+
+      await handleRestart(population, algorithm);
       return {
         error: null,
       };

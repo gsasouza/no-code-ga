@@ -1,8 +1,9 @@
-import { GraphQLBoolean, GraphQLObjectType } from 'graphql';
+import { GraphQLObjectType } from 'graphql';
 import { offsetToCursor } from 'graphql-relay';
 
 import LogConnection from '../LogConnection';
 import { pubSub, EVENTS } from '../../../../common/subscriptions';
+import { withFilter } from 'aws-lambda-graphql';
 
 const LogNewPayloadType = new GraphQLObjectType({
   name: 'LogNewPayload',
@@ -19,7 +20,11 @@ const LogNewPayloadType = new GraphQLObjectType({
 
 const logNewSubscription = {
   type: LogNewPayloadType,
-  subscribe: () => pubSub.subscribe(EVENTS.LOGS.NEW),
+  subscribe: withFilter(pubSub.subscribe(EVENTS.LOGS.NEW), (rootValue, args: { type }) => {
+    console.log(rootValue);
+    return true;
+  }),
+  // subscribe: () => pubSub.subscribe(EVENTS.LOGS.NEW),
 };
 
 export default logNewSubscription;

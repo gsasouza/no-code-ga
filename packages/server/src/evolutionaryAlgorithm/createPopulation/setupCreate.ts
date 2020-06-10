@@ -27,6 +27,7 @@ const setupCreate = async event => {
       }).save();
       await publishToQueue('avaliate', { populationId: document._id });
     }
+    await publishToQueue('select', { algorithmId });
     // await connection.close();
   } catch (e) {
     console.log(e);

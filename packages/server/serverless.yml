@@ -20,8 +20,8 @@ custom:
       migrate: true
       noStart: false
   dynamodbStream:
-    host: localhost
-    port: 8000
+#    host: localhost
+#    port: 8000
     # this fixes the problem with missing region
     region: us-east-1
     pollForever: true
@@ -43,7 +43,7 @@ provider:
     - Effect: Allow
       Action:
         - execute-api:ManageConnections
-      Resource: 'arn:aws:execute-api:*:*:*/development/POST/@connections/*'
+      Resource: 'arn:aws:execute-api:*:*:*/*/POST/@connections/*'
     - Effect: Allow
       Action:
         - dynamodb:DeleteItem

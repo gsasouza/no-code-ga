@@ -55,21 +55,26 @@ const calculatePopulationScore = async (connection, population, baseAlgorithm) =
   console.log({ count, value: population[0].fitness });
 };
 
-const handleRestart = async population => {
+export const handleRestart = async (population, algorithm) => {
   for await (const individual of population) await publishToQueue('avaliate', { populationId: individual._id });
+  await publishToQueue('select', { algorithmId: algorithm._id });
 };
 
 const handleSelect = async event => {
   try {
-    const { algorithmId, startTime } = JSON.parse(event.Records[0].Sns.Message);
+    console.log('select')
+    const { algorithmId } = JSON.parse(event.Records[0].Sns.Message);
     const connection = await getConnection(MONGO_URL);
     const algorithm = await AlgorithmModel(connection)
       .findById(algorithmId)
       .lean();
 
-    if (algorithm.status.isSelecting !== startTime) return;
+    const count = await PopulationModel(connection).countDocuments({
+      fitness: { $ne: null },
+      algorithm: algorithm._id,
+    });
 
-    console.log('select');
+    if (algorithm.setup.populationSize !== count) return await publishToQueue('select', { algorithmId });
 
     const population = await PopulationModel(connection)
       .find({
@@ -101,13 +106,7 @@ const handleSelect = async event => {
       fields: bestIndividual.fields,
     }).save();
 
-    const updatedAlgorithm = await AlgorithmModel(connection).findOneAndUpdate(
-      { _id: algorithm._id },
-      { status: { ...algorithm.status, isSelecting: 0 } },
-    );
-
-    if (updatedAlgorithm.status.isRunning) await handleRestart([...newPopulation, newBestIndividual]);
-    // await connection.close();
+    if (algorithm.status.isRunning) await handleRestart([...newPopulation, newBestIndividual], algorithm);
   } catch (e) {
     console.log(e);
   }
