@@ -25,6 +25,7 @@ export default mutationWithClientMutationId({
           .findOneAndUpdate({ _id: fromGlobalId(id).id, user: user._id }, { status: { isRunning: false } })
           .lean();
         return {
+          algorithmId: algorithm._id,
           error: null,
         };
       }
@@ -37,6 +38,7 @@ export default mutationWithClientMutationId({
 
       await handleRestart(population, algorithm);
       return {
+        algorithmId: algorithm._id,
         error: null,
       };
     } catch (e) {
