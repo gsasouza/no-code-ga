@@ -17,7 +17,7 @@ const LogNewSubscription = graphql`
   }
 `;
 
-export default () => ({
+export default {
   subscription: LogNewSubscription,
   variables: {},
   onCompleted: () => {
@@ -30,8 +30,9 @@ export default () => ({
   updater: store => {
     const logEdge = store.getRootField('LogNew').getLinkedRecord('logEdge');
     const storeProxy = store.get(ROOT_ID);
-    const conn = ConnectionHandler.getConnection(storeProxy, 'AlgorithmDetail_logs');
+    const conn = ConnectionHandler.getConnection(storeProxy, 'AlgorithmResults_logs');
+    conn?.setValue(conn?.getValue('count') + 1, 'count');
     if (!conn) return;
     ConnectionHandler.insertEdgeBefore(conn, logEdge);
   },
-});
+};

@@ -54,6 +54,7 @@ export const useAuthUser = () => {
   const authUser = async ({ tokenId }: { tokenId: string }) => {
     try {
       await mutate({ variables: { input: { token: tokenId } } });
+
     } catch (e) {
       Sentry.captureException(e);
     }

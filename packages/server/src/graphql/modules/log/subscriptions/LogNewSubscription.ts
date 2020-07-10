@@ -10,10 +10,13 @@ const LogNewPayloadType = new GraphQLObjectType({
   fields: () => ({
     logEdge: {
       type: LogConnection.edgeType,
-      resolve: ({ log }) => ({
-        cursor: offsetToCursor(log.id),
-        node: log,
-      }),
+      resolve: ({ log }) => {
+        console.log(log);
+        return {
+          cursor: offsetToCursor(log.id),
+          node: log,
+        };
+      },
     },
   }),
 });

@@ -39,7 +39,7 @@ const calculatePopulationScore = async (connection, population, baseAlgorithm) =
     algorithm: population[0].algorithm,
   }).save();
 
-  await pubSub.publish(EVENTS.LOGS.NEW, { LogNew: { log: newLog } });
+  await pubSub.publish(EVENTS.LOGS.NEW, { LogNew: { log: { id: newLog._id, ...newLog.toObject() } } });
 
   const count = await LogModel(connection).countDocuments({ fitness: population[0].fitness });
   if (count > MUTATE_COUNT_THRESHOLD) {
@@ -52,7 +52,6 @@ const calculatePopulationScore = async (connection, population, baseAlgorithm) =
       )
       .lean();
   }
-  console.log({ count, value: population[0].fitness });
 };
 
 export const handleRestart = async (population, algorithm) => {
@@ -62,7 +61,7 @@ export const handleRestart = async (population, algorithm) => {
 
 const handleSelect = async event => {
   try {
-    console.log('select')
+    console.log('select');
     const { algorithmId } = JSON.parse(event.Records[0].Sns.Message);
     const connection = await getConnection(MONGO_URL);
     const algorithm = await AlgorithmModel(connection)

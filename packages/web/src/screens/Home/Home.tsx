@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import { GoogleLoginResponse, useGoogleLogin } from 'react-google-login';
 import { GoogleOutlined } from '@ant-design/icons';
 import { Card, Button } from 'antd';
@@ -16,10 +17,14 @@ const Content = styled.main`
 
 const Home = ({ children }) => {
   const { authUser } = useAuthUser();
+  const history = useHistory();
   const { signIn } = useGoogleLogin({
     clientId: '486568143882-q60mcrj11ecklobkc53a0vbv499eo6g1.apps.googleusercontent.com',
     cookiePolicy: 'single_host_origin',
-    onSuccess: response => authUser(response as GoogleLoginResponse),
+    onSuccess: async response => {
+      await authUser(response as GoogleLoginResponse);
+      history.push('/dashboard/algorithms');
+    },
     onFailure: () => {}, // eslint-disable-line
     onAutoLoadFinished: () => {}, // eslint-disable-line
   });
