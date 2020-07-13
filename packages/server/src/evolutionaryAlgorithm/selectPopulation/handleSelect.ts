@@ -1,5 +1,3 @@
-import mongoose from 'mongoose';
-
 import { getConnection, MONGO_URL } from '../../common';
 import AlgorithmModel from '../../graphql/modules/algorithm/AlgorithmModel';
 import PopulationModel from '../../graphql/modules/population/PopulationModel';
@@ -73,8 +71,11 @@ const handleSelect = async event => {
       algorithm: algorithm._id,
     });
 
-    if (algorithm.setup.populationSize !== count) return await publishToQueue('select', { algorithmId });
+    console.log(count, algorithm.setup.populationSize);
 
+    if (!algorithm.status.isRunning) return;
+    if (algorithm.setup.populationSize !== count) return await publishToQueue('select', { algorithmId });
+    console.log('heeere', count, algorithm.setup.populationSize);
     const population = await PopulationModel(connection)
       .find({
         algorithm: algorithm._id,
@@ -94,10 +95,14 @@ const handleSelect = async event => {
         algorithm: algorithm._id,
         user: algorithm.user._id,
         fields: JSON.stringify(mutateIndividual(tournamentSelection(population, bestIndividual, algorithm), algorithm)),
-      }).save();
+      });
     }
 
     await PopulationModel(connection).deleteMany({ fitness: { $ne: null } });
+
+    for await (const [index] of newPopulation.entries()) {
+      await newPopulation[index].save();
+    }
 
     const newBestIndividual = await new (PopulationModel(connection))({
       algorithm: algorithm._id,

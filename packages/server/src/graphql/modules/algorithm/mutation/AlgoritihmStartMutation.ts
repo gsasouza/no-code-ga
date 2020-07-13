@@ -32,6 +32,7 @@ export default mutationWithClientMutationId({
       await AlgorithmModel(dbConnection)
         .findOneAndUpdate({ _id: fromGlobalId(id).id, user: user._id }, { status: { isRunning: true } })
         .lean();
+
       const population = await PopulationModel(dbConnection)
         .find({ algorithm: algorithm._id, user: user._id })
         .lean();

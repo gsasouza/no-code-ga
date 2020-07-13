@@ -111,6 +111,9 @@ const algorithmSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+    },
     status: statusSchema,
     setup: setupSchema,
     evolveConfig: evolveConfigSchema,

@@ -96,7 +96,7 @@ const ResultChart = ({ query }) => {
           domain={['dataMin', 'dataMax']}
           padding={{ bottom: 20 }}
         />
-        <YAxis domain={['auto', 'auto']} hide={true} />
+        <YAxis domain={[-5, 'auto']} hide={true} />
         <Tooltip />
         <Legend />
       </LineChart>

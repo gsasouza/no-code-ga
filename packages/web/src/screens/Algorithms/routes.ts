@@ -14,6 +14,17 @@ export default [
     },
   },
   {
+    path: path => `${path}/algorithms/add`,
+    component: React.lazy(() => import('./AlgorithmAdd')),
+    // prepare: params => {
+    //   const query = require('./__generated__/AlgorithmDetailQuery.graphql');
+    //   const variables = {
+    //     id: params.id,
+    //   };
+    //   return prepareQuery(query, variables);
+    // },
+  },
+  {
     path: path => `${path}/algorithms/:id`,
     component: React.lazy(() => import('./AlgorithmDetail')),
     prepare: params => {

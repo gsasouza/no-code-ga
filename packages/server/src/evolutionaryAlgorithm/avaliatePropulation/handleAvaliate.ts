@@ -1,7 +1,6 @@
 import PopulationModel from '../../graphql/modules/population/PopulationModel';
 import { getConnection, MONGO_URL } from '../../common';
 import AlgorithmModel from '../../graphql/modules/algorithm/AlgorithmModel';
-import { publishToQueue } from '../../common/aws';
 
 const handleAvaliate = async event => {
   console.log('avaliate');
@@ -20,6 +19,8 @@ const handleAvaliate = async event => {
     const { testFunction } = algorithm?.setup;
     const fn = new Function('individual', testFunction);
     const fitness = fn(JSON.parse(population.fields));
+    console.log('here', fn, fitness);
+
     await PopulationModel(connection).findOneAndUpdate({ _id: population._id }, { fitness });
   } catch (e) {
     console.log(e);

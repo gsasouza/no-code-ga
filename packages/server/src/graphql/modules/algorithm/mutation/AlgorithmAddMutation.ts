@@ -4,6 +4,8 @@ import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
 import AlgorithmConnection from '../AlgorithmConnection';
 import { AlgorithmLoader } from '../../../loaders';
 import AlgorithmModel from '../AlgorithmModel';
+import PopulationModel from '../../population/PopulationModel';
+import { publishToQueue } from '../../../../common/aws';
 
 const DataInputType = new GraphQLInputObjectType({
   name: 'DataInputType',
@@ -53,6 +55,20 @@ export default mutationWithClientMutationId({
       };
     try {
       const algorithm = await new (AlgorithmModel(dbConnection))({ setup, name, user }).save();
+      const { populationSize, generateFunction } = algorithm?.setup;
+      const fn = new Function('position', `${generateFunction}; generate(position);`);
+
+      const population = new Array(populationSize).fill(null).map((_, i) => fn(i));
+
+      for await (const individual of population) {
+        const document = await new (PopulationModel(dbConnection))({
+          algorithm: algorithm._id,
+          user: algorithm.user._id,
+          fields: JSON.stringify(individual),
+        }).save();
+        await publishToQueue('avaliate', { populationId: document._id });
+      }
+      await publishToQueue('select', { algorithmId: algorithm._id });
       return {
         algorithmId: algorithm._id,
         error: null,

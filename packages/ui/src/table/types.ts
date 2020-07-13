@@ -27,5 +27,6 @@ export interface TableProps<T> {
     };
     edges: Edge<T>[];
   };
+  footer?: React.ElementType
   onRowClick?: (node: T) => void;
 }
