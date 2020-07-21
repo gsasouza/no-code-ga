@@ -32,7 +32,7 @@ export default {
     const logEdge = store.getRootField('LogNew').getLinkedRecord('logEdge');
     const storeProxy = store.get(ROOT_ID);
     const conn = ConnectionHandler.getConnection(storeProxy, 'AlgorithmResults_logs');
-    conn?.setValue(conn?.getValue('count') + 1, 'count');
+    conn?.setValue(conn?.getValue('count')+ 1, 'count');
     if (!conn) return;
     const edge = ConnectionHandler.createEdge(store, conn, logEdge.getLinkedRecord('node'), 'LogEdge');
     console.log(logEdge, edge);
