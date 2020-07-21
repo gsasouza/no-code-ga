@@ -1,18 +1,46 @@
+import R from 'ramda';
 import { IPopulation } from '../../graphql/modules/population/PopulationModel';
-import { IAlgorithm } from '../../graphql/modules/algorithm/AlgorithmModel';
+import { Field, IAlgorithm } from '../../graphql/modules/algorithm/AlgorithmModel';
 import { FIELD_TYPES } from './fields';
+import { randomIntBetween } from '../../common';
 
 const combat = (individualA, individualB) => (individualA.fitness > individualB.fitness ? individualA : individualB);
 
-const calculateMean = (array, field) =>
-  array.reduce((acc, cur) => acc + JSON.parse(cur.fields)[field], 0) / array.length;
+const calculateMean = (array: IPopulation[], field: Field) =>
+  array.reduce((acc, cur) => acc + JSON.parse(cur.fields)[field.name], 0) / array.length;
+
+const getIndividualObject = (individual: IPopulation) => JSON.parse(individual.fields);
+
+const generateTSPIndividual = (array, field) => {
+  const bestResult = getIndividualObject(array[array.length - 1])[field.name];
+  const father = getIndividualObject(array[0])[field.name];
+  const citySize = bestResult.length;
+  const start = randomIntBetween(0, citySize);
+  const end = start + 4;
+  const bestResultPartition = bestResult.slice(start, end);
+  const filteredFather = father.filter(i => !bestResultPartition.includes(i));
+  return [...filteredFather.slice(0, start), ...bestResultPartition, ...filteredFather.slice(end - 1)];
+};
 
 export const arrayToObject = array => array.reduce((acc, cur) => ({ ...acc, ...cur }), {});
 
-export const calculateFieldResult = (individuals: IPopulation[], algorithm: IAlgorithm, fn) => {
+const getSelectionFunction = field => {
+  switch (field.type) {
+    case FIELD_TYPES.NUMBER:
+      return calculateMean;
+    case FIELD_TYPES.NUMBER_ARRAY:
+      return generateTSPIndividual;
+    default:
+      return calculateMean;
+  }
+};
+
+export const calculateFieldResult = (individuals: IPopulation[], algorithm: IAlgorithm) => {
   const { dataModel } = algorithm.setup;
   const fields = dataModel.map(field => {
-    if (field.type === FIELD_TYPES.NUMBER) return { [field.name]: fn(individuals, field.name) };
+    if (field.type === FIELD_TYPES.NUMBER) return { [field.name]: getSelectionFunction(field)(individuals, field) };
+    if (field.type === FIELD_TYPES.NUMBER_ARRAY)
+      return { [field.name]: getSelectionFunction(field)(individuals, field) };
     return { [field.name]: 0 };
   });
 
@@ -29,7 +57,7 @@ const tournamentSelection = (population: IPopulation[], bestResult: IPopulation,
     population[Math.floor(Math.random() * population.length)],
     population[Math.floor(Math.random() * population.length)],
   );
-  return calculateFieldResult([mother, father, bestResult], algorithm, calculateMean);
+  return calculateFieldResult([mother, father, bestResult], algorithm);
 };
 
 export default tournamentSelection;

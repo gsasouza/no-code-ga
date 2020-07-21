@@ -13,9 +13,9 @@ const AlgorithmList = ({ preloadedQuery }) => {
   const { data } = usePaginationFragment<AlgorithmListPaginationQuery, any>(fragment, query);
   const dataSource = (data.algorithms?.edges || []).map(({ node }) => ({
     ...node,
-    bestFitness: node.currentData.bestFitness,
+    bestFitness: node.currentData?.bestFitness || '-',
     populationSize: node.setup.populationSize,
-    isRunning: node.status.isRunning,
+    isRunning: node.status?.isRunning,
   }));
   const columns = [
     {
@@ -34,7 +34,7 @@ const AlgorithmList = ({ preloadedQuery }) => {
       key: 'fitness',
       render: text => (
         <Space size="middle">
-          <span>{Number.parseFloat(text).toFixed(2)}</span>
+          <span>{Number.parseFloat(text || 0).toFixed(2)}</span>
         </Space>
       ),
     },

@@ -33,6 +33,8 @@ export default {
     const conn = ConnectionHandler.getConnection(storeProxy, 'AlgorithmResults_logs');
     conn?.setValue(conn?.getValue('count') + 1, 'count');
     if (!conn) return;
-    ConnectionHandler.insertEdgeBefore(conn, logEdge);
+    const edge = ConnectionHandler.createEdge(store, conn, logEdge.getLinkedRecord('node'), 'LogEdge');
+    console.log(logEdge, edge);
+    ConnectionHandler.insertEdgeBefore(conn, edge);
   },
 };

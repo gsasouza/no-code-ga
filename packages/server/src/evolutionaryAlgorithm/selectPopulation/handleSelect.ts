@@ -75,7 +75,6 @@ const handleSelect = async event => {
 
     if (!algorithm.status.isRunning) return;
     if (algorithm.setup.populationSize !== count) return await publishToQueue('select', { algorithmId });
-    console.log('heeere', count, algorithm.setup.populationSize);
     const population = await PopulationModel(connection)
       .find({
         algorithm: algorithm._id,

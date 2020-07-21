@@ -7,6 +7,8 @@ import DataModelStep from './AlgorithmAddDataModelStep';
 import GenerateFunctionStep, { validateGenerateFunction } from './AlgortihmAddGenerateFunctionStep';
 import TestFunctionStep, { validateTestFunction } from './AlgorithmAddTestFunctionStep';
 import AlgorithmAddResultStep from './AlgorithmAddResultStep';
+import { useMutation } from 'relay-hooks/lib';
+import AlgorithmAddMutation from './mutations/AlgorithmAddMutation';
 
 const FormContainer = styled.section`
   display: flex;
@@ -57,9 +59,11 @@ const steps: {
 const AlgorithmAdd = () => {
   const [step, setStep] = React.useState(0);
   const { content: Component, onBeforeNext } = steps[step];
-
-  const handleSubmit = async () => {
+  const [mutate, { loading }] = useMutation(AlgorithmAddMutation, {});
+  const handleSubmit = async values => {
     console.log('submit');
+    await mutate({ variables: { input: values } });
+    setStep(s => s + 1);
   };
 
   return (
@@ -78,6 +82,7 @@ const AlgorithmAdd = () => {
               setup: {
                 dataModel: [{ name: '', type: 'NUMBER' }],
                 generateFunction: '',
+                populationSize: 5,
                 testFunction: 'function avaliate(individual) { \n  return 0; \n}',
               },
             }}
@@ -89,7 +94,7 @@ const AlgorithmAdd = () => {
                 setStep(s => s - 1);
               };
               const handleNext = async () => {
-                if (step >= steps.length) return handleSubmit();
+                if (step === steps.length - 2) return handleSubmit(props.values);
                 if (onBeforeNext && !onBeforeNext(props.values)) return;
                 if (step + 1 >= steps.length) return setStep(steps.length - 1);
                 setStep(s => s + 1);
@@ -104,7 +109,7 @@ const AlgorithmAdd = () => {
                       <Button onClick={handleBack} disabled={step === 0}>
                         Voltar
                       </Button>
-                      <Button type="primary" onClick={handleNext} disabled={step === steps.length}>
+                      <Button type="primary" onClick={handleNext} loading={loading} disabled={step === steps.length}>
                         Avançar
                       </Button>
                     </Actions>

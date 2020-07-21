@@ -4,6 +4,15 @@
 
 This is a platform to run genetic algorithms with *almost* no code skills required. You can define your algorithm parameters, we'll run everything automagically and present the results in our dashboard.
 
+## Dependencies
+
+- NodeJS
+- Yarn
+- MongoDB
+
+## How to run
+
+
 ## Architecture
 
 - AWS Lambda Functions to run multiple algorithms and algorithm steps in parallel and distributed.

@@ -48,15 +48,30 @@ export default mutationWithClientMutationId({
     },
   },
   mutateAndGetPayload: async ({ setup, name }, { dbConnection, user }) => {
+    console.log(user);
     if (!user)
       return {
         algorithmId: null,
         error: 'UNAUTHORIZED',
       };
     try {
-      const algorithm = await new (AlgorithmModel(dbConnection))({ setup, name, user }).save();
+      const algorithm = await new (AlgorithmModel(dbConnection))({
+        setup,
+        name,
+        user,
+        status: {
+          isRunning: true,
+        },
+        evolveConfig: {
+          mutationRate: 15,
+          mutationBaseRate: 15,
+          mutationRateModifier: 1,
+          generationsWithRateModifier: 0,
+        },
+      }).save();
       const { populationSize, generateFunction } = algorithm?.setup;
-      const fn = new Function('position', `${generateFunction}; generate(position);`);
+      const fn = new Function('position', `${generateFunction}; return generate(position);`);
+      console.log(`${generateFunction}; return generate(position);`);
 
       const population = new Array(populationSize).fill(null).map((_, i) => fn(i));
 

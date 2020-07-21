@@ -40,7 +40,7 @@ const GenerateFunctionStep = ({ setFieldValue, values }) => {
         name="setup.generateFunction"
         fontSize={14}
         width="100%"
-        value={`function generate() { \n  return ${JSON.stringify(initialValue)}; \n}`}
+        defaultValue={`function generate() { \n  return ${JSON.stringify(initialValue)}; \n}`}
         onChange={value => setFieldValue('setup.generateFunction', value)}
         showPrintMargin={true}
         showGutter={true}

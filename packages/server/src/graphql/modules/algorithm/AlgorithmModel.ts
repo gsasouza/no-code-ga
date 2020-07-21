@@ -3,6 +3,11 @@ import mongoose from 'mongoose';
 import { IUser } from '../user/UserModel';
 import { FIELD_TYPES } from '../../../evolutionaryAlgorithm/selectPopulation/fields';
 
+export type Field = {
+  name: string;
+  type: keyof typeof FIELD_TYPES;
+};
+
 export interface IAlgorithm extends Document {
   name: string;
   user: IUser;
@@ -18,7 +23,7 @@ export interface IAlgorithm extends Document {
   };
   setup: {
     populationSize: number;
-    dataModel: { name: string; type: keyof typeof FIELD_TYPES }[];
+    dataModel: Field[];
     generateFunction: string;
     testFunction: string;
   };

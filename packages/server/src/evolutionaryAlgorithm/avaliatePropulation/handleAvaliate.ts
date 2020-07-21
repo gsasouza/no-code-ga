@@ -17,9 +17,8 @@ const handleAvaliate = async event => {
       .lean();
 
     const { testFunction } = algorithm?.setup;
-    const fn = new Function('individual', testFunction);
+    const fn = new Function('individual', `${testFunction}; return avaliate(individual);`);
     const fitness = fn(JSON.parse(population.fields));
-    console.log('here', fn, fitness);
 
     await PopulationModel(connection).findOneAndUpdate({ _id: population._id }, { fitness });
   } catch (e) {

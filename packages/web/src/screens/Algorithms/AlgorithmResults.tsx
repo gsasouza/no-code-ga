@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { useFragment, usePreloadedQuery } from 'react-relay/hooks';
+import { useFragment } from 'react-relay/hooks';
 import { PauseOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { useMutation, graphql } from 'relay-hooks/lib';
 import AlgorithmStartMutation from './mutations/AlgorithmStartMutation';
@@ -54,10 +54,12 @@ const algorithmFragment = graphql`
 
 const fragment = graphql`
   fragment AlgorithmResults_query on Query {
-    logs(first: 100, algorithm: $id) @connection(key: "AlgorithmResults_logs", filters: []) {
+    logs(first: 500, algorithm: $id) @connection(key: "AlgorithmResults_logs", filters: []) {
       count
       edges {
+        cursor
         node {
+          id
           fitness
           populationFitness
         }
@@ -72,14 +74,7 @@ const ResultChart = ({ query }) => {
   return (
     <ResponsiveContainer aspect={5}>
       <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-        <Line
-          type="monotone"
-          dataKey="fitness"
-          name="Fitness"
-          stroke="#002140"
-          dot={false}
-          isAnimationActive={false}
-        />
+        <Line type="monotone" dataKey="fitness" name="Fitness" stroke="#002140" dot={false} isAnimationActive={false} />
         <Line
           type="monotone"
           dataKey="populationFitness"
@@ -105,10 +100,7 @@ const ResultChart = ({ query }) => {
 };
 
 const AlgorithmResults = ({ query, node }) => {
-  const {
-    currentData: { bestFitness },
-    status,
-  } = useFragment(algorithmFragment, node);
+  const { currentData, status } = useFragment(algorithmFragment, node);
   const { logs } = useFragment(fragment, query);
   const { id } = useParams();
   const [isRunning, setIsRunning] = React.useState(status.isRunning);
@@ -123,7 +115,7 @@ const AlgorithmResults = ({ query, node }) => {
   return (
     <>
       <Row>
-        <FitnessLabel>Fitness: {bestFitness}</FitnessLabel>
+        <FitnessLabel>Fitness: {logs.edges[0].node.fitness || currentData?.bestFitness}</FitnessLabel>
         <GenerationLabel>Geração {logs?.count}</GenerationLabel>
         <Button
           type="primary"

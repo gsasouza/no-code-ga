@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { Button } from 'antd';
-import { ConnectionHandler, ROOT_ID } from 'relay-runtime';
-import { PauseOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { PageHeader, Collapse, Input, Switch, Form } from 'antd';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { graphql } from 'react-relay';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { EditOutlined } from '@ant-design/icons';
