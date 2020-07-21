@@ -84,6 +84,7 @@ type Log implements Node {
   """The ID of an object"""
   id: ID!
   populationFitness: Float
+  bestIndividual: String
   fitness: Float
 }
 

@@ -15,7 +15,7 @@ const setupCreate = async event => {
       .lean();
 
     const { populationSize, generateFunction } = algorithm?.setup;
-    const fn = new Function('position', `${generateFunction}; generate(position);`);
+    const fn = new Function('position', `${generateFunction}; return generate(position);`);
 
     const population = new Array(populationSize).fill(null).map((_, i) => fn(i));
     await PopulationModel(connection).deleteMany({ algorithm: algorithm._id });

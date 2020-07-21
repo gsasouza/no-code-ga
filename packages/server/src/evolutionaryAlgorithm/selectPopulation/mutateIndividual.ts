@@ -37,7 +37,7 @@ export const calculateMutationRateChange = algorithm => {
 };
 
 const calculateTSPMutation = (fieldData, mutationRate) => {
-  if (randomFloatBetween(0, 100) < mutationRate) {
+  if (randomFloatBetween(0, 100) < mutationRate * 1000) {
     const citySize = fieldData.length;
     const start = randomIntBetween(0, citySize);
     const end = distinctRandomBetween(0, citySize, start);

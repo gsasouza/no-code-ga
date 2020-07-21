@@ -8,7 +8,7 @@ const sns = new AWS.SNS({
 sns.publish(
   {
     Message: JSON.stringify({
-      algorithmId: '5ec76c7dae215610ffee2331',
+      algorithmId: '5f165a98d94be2000793d3cf',
     }),
     TopicArn: 'arn:aws:sns:us-east-1:123456789012:create',
   },

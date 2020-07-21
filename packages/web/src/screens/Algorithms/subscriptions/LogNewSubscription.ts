@@ -10,6 +10,7 @@ const LogNewSubscription = graphql`
         node {
           id
           fitness
+          bestIndividual
           populationFitness
         }
       }

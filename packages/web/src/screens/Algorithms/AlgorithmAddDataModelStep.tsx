@@ -9,6 +9,7 @@ const Row = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
   width: 100%;
+  margin-top: 1rem;
   > div {
     width: 100%;
   }
@@ -18,7 +19,7 @@ const Row = styled.div`
 `;
 
 const DataModelStep = props => {
-  const { values } = props;
+  const { values, setFieldValue } = props;
   return (
     <>
       <Typography.Title level={4}>Como é o seu cromossomo?</Typography.Title>
@@ -46,8 +47,10 @@ const DataModelStep = props => {
                     defaultValue={type}
                     name={`setup.dataModel.${index}.type`}
                     style={{ width: '100%' }}
+                    onChange={value => setFieldValue(`setup.dataModel.${index}.type`, value)}
                   >
                     <Select.Option value="NUMBER">Número</Select.Option>
+                    <Select.Option value="NUMBER_ARRAY">Array de Número</Select.Option>
                   </Field>
                 </div>
               </Row>

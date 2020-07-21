@@ -19,7 +19,7 @@ const handleAvaliate = async event => {
     const { testFunction } = algorithm?.setup;
     const fn = new Function('individual', `${testFunction}; return avaliate(individual);`);
     const fitness = fn(JSON.parse(population.fields));
-
+    console.log(fitness * 1000);
     await PopulationModel(connection).findOneAndUpdate({ _id: population._id }, { fitness });
   } catch (e) {
     console.log(e);

@@ -32,6 +32,7 @@ const calculatePopulationScore = async (connection, population, baseAlgorithm) =
 
   const newLog = await new (LogModel(connection))({
     populationFitness,
+    bestIndividual: JSON.stringify(population[0].fields),
     fitness: population[0].fitness,
     user: population[0].user,
     algorithm: population[0].algorithm,

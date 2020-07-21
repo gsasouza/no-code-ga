@@ -71,7 +71,6 @@ export default mutationWithClientMutationId({
       }).save();
       const { populationSize, generateFunction } = algorithm?.setup;
       const fn = new Function('position', `${generateFunction}; return generate(position);`);
-      console.log(`${generateFunction}; return generate(position);`);
 
       const population = new Array(populationSize).fill(null).map((_, i) => fn(i));
 

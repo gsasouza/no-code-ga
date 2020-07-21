@@ -38,7 +38,7 @@ const setupSchema = new mongoose.Schema(
     populationSize: {
       type: Number,
       required: true,
-      default: 10,
+      default: 100,
     },
     dataModel: [
       {

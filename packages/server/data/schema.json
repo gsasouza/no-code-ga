@@ -1048,6 +1048,18 @@
               "deprecationReason": null
             },
             {
+              "name": "bestIndividual",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "fitness",
               "description": null,
               "args": [],

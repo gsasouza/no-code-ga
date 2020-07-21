@@ -16,10 +16,10 @@ const generateTSPIndividual = (array, field) => {
   const father = getIndividualObject(array[0])[field.name];
   const citySize = bestResult.length;
   const start = randomIntBetween(0, citySize);
-  const end = start + 4;
+  const end = start + citySize/2;
   const bestResultPartition = bestResult.slice(start, end);
   const filteredFather = father.filter(i => !bestResultPartition.includes(i));
-  return [...filteredFather.slice(0, start), ...bestResultPartition, ...filteredFather.slice(end - 1)];
+  return [...filteredFather.slice(0, start), ...bestResultPartition, ...filteredFather.slice(start)];
 };
 
 export const arrayToObject = array => array.reduce((acc, cur) => ({ ...acc, ...cur }), {});

@@ -14,6 +14,7 @@ export default class Log {
   user: Schema.Types.ObjectId;
   algorithm: Schema.Types.ObjectId;
   fitness: number;
+  bestIndividual: string;
   populationFitness: number;
   constructor(data) {
     this.id = data._id;
@@ -22,6 +23,7 @@ export default class Log {
     this.algorithm = data.algorithm;
     this.populationFitness = data.populationFitness;
     this.fitness = data.fitness;
+    this.bestIndividual = data.bestIndividual;
   }
 }
 

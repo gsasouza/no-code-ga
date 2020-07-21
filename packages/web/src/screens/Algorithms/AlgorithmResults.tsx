@@ -61,6 +61,7 @@ const fragment = graphql`
         node {
           id
           fitness
+          bestIndividual
           populationFitness
         }
       }
@@ -115,7 +116,7 @@ const AlgorithmResults = ({ query, node }) => {
   return (
     <>
       <Row>
-        <FitnessLabel>Fitness: {logs.edges[0].node.fitness || currentData?.bestFitness}</FitnessLabel>
+        <FitnessLabel>Fitness: {logs.edges[0]?.node?.fitness || currentData?.bestFitness}</FitnessLabel>
         <GenerationLabel>Geração {logs?.count}</GenerationLabel>
         <Button
           type="primary"
@@ -126,7 +127,18 @@ const AlgorithmResults = ({ query, node }) => {
           {isRunning ? 'Pausar' : 'Iniciar'}
         </Button>
       </Row>
+
       <ResultChart query={query} />
+
+      <div>
+        <strong>
+          <span>Melhor Indivíduo:</span>
+        </strong>
+        <br />
+        <span>
+          <pre>{logs.edges[0]?.node?.bestIndividual}</pre>
+        </span>
+      </div>
     </>
   );
 };

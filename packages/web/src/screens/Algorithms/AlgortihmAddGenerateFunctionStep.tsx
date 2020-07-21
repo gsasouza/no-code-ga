@@ -6,13 +6,24 @@ import 'ace-builds/src-noconflict/snippets/javascript';
 import 'ace-builds/src-noconflict/theme-monokai';
 import 'ace-builds/src-noconflict/ext-language_tools';
 
+const validateByType = (type, value) => {
+  console.log(type, value !== 'undefined', Array.isArray(value), value !== 'undefined' && Array.isArray(value));
+  if (type === 'NUMBER') return value !== 'undefined' && typeof value === 'number';
+  if (type === 'NUMBER_ARRAY') return value !== 'undefined' && Array.isArray(value);
+  return false;
+};
+
 export const validateGenerateFunction = values => {
   try {
     const { generateFunction, dataModel } = values.setup;
     const fn = new Function('', `${generateFunction}; return generate();`);
     const individual = fn();
+    console.log(
+      individual,
+      dataModel.map(({ name, type }) => validateByType(type, individual[name])),
+    );
     const isValid = dataModel
-      .map(({ name }) => individual[name] !== 'undefined' && typeof individual[name] === 'number')
+      .map(({ name, type }) => validateByType(type, individual[name]))
       .reduce((acc, cur) => acc && cur, true);
     if (!isValid) message.error('Sua função de geração não é compatível com seu cromossomo!');
     return isValid;

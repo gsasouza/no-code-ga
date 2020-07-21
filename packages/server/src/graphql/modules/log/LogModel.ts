@@ -8,6 +8,7 @@ export interface ILog extends Document {
   fitness: number;
   algorithm: IAlgorithm;
   user: IUser;
+  bestIndividual: string;
 }
 
 const logSchema = new mongoose.Schema(
@@ -18,6 +19,10 @@ const logSchema = new mongoose.Schema(
     },
     fitness: {
       type: Number,
+      required: true,
+    },
+    bestIndividual: {
+      type: String,
       required: true,
     },
     algorithm: {

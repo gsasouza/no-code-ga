@@ -11,7 +11,6 @@ const LogNewPayloadType = new GraphQLObjectType({
     logEdge: {
       type: LogConnection.edgeType,
       resolve: ({ log }) => {
-        console.log(log);
         return {
           cursor: offsetToCursor(log.id),
           node: log,
@@ -27,7 +26,6 @@ const logNewSubscription = {
     console.log(rootValue);
     return true;
   }),
-  // subscribe: () => pubSub.subscribe(EVENTS.LOGS.NEW),
 };
 
 export default logNewSubscription;

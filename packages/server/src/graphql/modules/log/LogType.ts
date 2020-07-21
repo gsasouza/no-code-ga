@@ -1,4 +1,4 @@
-import { GraphQLFloat, GraphQLObjectType } from 'graphql';
+import {GraphQLFloat, GraphQLObjectType, GraphQLString} from 'graphql';
 import { globalIdField } from 'graphql-relay';
 
 import { NodeInterface } from '../../interface/NodeInterface';
@@ -10,6 +10,9 @@ const LogType = new GraphQLObjectType({
     id: globalIdField('Log'),
     populationFitness: {
       type: GraphQLFloat,
+    },
+    bestIndividual: {
+      type: GraphQLString,
     },
     fitness: {
       type: GraphQLFloat,
