@@ -1,6 +1,6 @@
 
 # No Code GA
-*this project was made for the class Evolutionary Algorithms applied to Robotics (SSC0713) at ICMC/USP*
+*this project was made for the class Evolutionary Algorithms applied to Robotics (SSC0713) at ICMC/USP (click [here](https://youtu.be/k5uuZiX3Ndc) to see the presentation video)*
 
 This is a platform to run genetic algorithms with *almost* no code skills required. You can define your algorithm parameters, we'll run everything automagically and present the results in our dashboard.
 
