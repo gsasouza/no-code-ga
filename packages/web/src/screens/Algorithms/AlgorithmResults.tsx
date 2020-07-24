@@ -54,7 +54,7 @@ const algorithmFragment = graphql`
 
 const fragment = graphql`
   fragment AlgorithmResults_query on Query {
-    logs(first: 500, algorithm: $id) @connection(key: "AlgorithmResults_logs", filters: []) {
+    logs(first: 300, algorithm: $id) @connection(key: "AlgorithmResults_logs", filters: []) {
       count
       edges {
         cursor

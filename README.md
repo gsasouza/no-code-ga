@@ -6,12 +6,23 @@ This is a platform to run genetic algorithms with *almost* no code skills requir
 
 ## Dependencies
 
-- NodeJS
-- Yarn
-- MongoDB
+- [NodeJS](https://nodejs.org/en/)
+- [Yarn](https://yarnpkg.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [DynamoDB](https://aws.amazon.com/pt/dynamodb/)
+- [Serverless](https://www.serverless.com/)
 
 ## How to run
 
+- Install dependencies: run `yarn`
+
+### Server
+- Create `.env` file (see `.env.example`);
+- Run `yarn server:graphql` for local development
+
+## Web
+- Create `.env` file (see `.env.example`);
+- Run `yarn web:start` for local development
 
 ## Architecture
 

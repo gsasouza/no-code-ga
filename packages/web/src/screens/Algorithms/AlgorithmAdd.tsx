@@ -82,7 +82,7 @@ const AlgorithmAdd = () => {
               setup: {
                 dataModel: [{ name: '', type: 'NUMBER' }],
                 generateFunction: '',
-                populationSize: 100,
+                populationSize: 20,
                 testFunction: 'function avaliate(individual) { \n  return 0; \n}',
               },
             }}
