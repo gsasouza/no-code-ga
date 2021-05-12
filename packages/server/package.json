@@ -37,7 +37,7 @@
     "koa-router": "^8.0.6",
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.9.18",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.4.16",
     "ramda": "^0.27.0",
     "serverless-offline-sns": "^0.68.0",
     "subscriptions-transport-ws": "^0.9.16",
